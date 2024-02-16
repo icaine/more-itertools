@@ -2282,21 +2282,14 @@ def mark_ends(iterable):
     >>> print(total)
     300
     """
-    it = iter(iterable)
+    i = 0
+    for i, b in enumerate(iterable, 1):
+        if i > 1:
+            yield i == 2, False, a
+        a = b
 
-    try:
-        b = next(it)
-    except StopIteration:
-        return
-
-    try:
-        for i in count():
-            a = b
-            b = next(it)
-            yield i == 0, False, a
-
-    except StopIteration:
-        yield i == 0, True, a
+    if i:
+        yield i == 1, True, a
 
 
 def locate(iterable, pred=bool, window_size=None):
